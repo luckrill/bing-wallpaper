@@ -10,6 +10,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.wdbyte.bing.html.WebSiteGenerator;
+
 /**
  * @author niujinpeng
  * @date 2021/02/08
@@ -40,12 +42,13 @@ public class Wallpaper {
         // 图片版权
         String copyright = (String)jsonObject.get("copyright");
 
-        List<Images> imagesList = FileUtils.readBing();
+        List<Images> imagesList = BingFileUtils.readBing();
         imagesList.set(0,new Images(copyright, enddate, url));
         imagesList = imagesList.stream().distinct().collect(Collectors.toList());
-        FileUtils.writeBing(imagesList);
-        FileUtils.writeReadme(imagesList);
-
+        BingFileUtils.writeBing(imagesList);
+        BingFileUtils.writeReadme(imagesList);
+        BingFileUtils.writeMonthInfo(imagesList);
+        new WebSiteGenerator().htmlGenerator();
     }
 
 }
